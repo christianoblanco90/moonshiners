@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Moonshiners - Digital Tech Rider & Patchbay</title>
+    <!-- Inter & JetBrains Mono Fonts, FontAwesome 6 Pro/Free for specialized music icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-color: #0a0c10;
+            --bg-card: rgba(18, 22, 31, 0.7);
+            --bg-card-hover: rgba(26, 32, 44, 0.85);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(245, 166, 35, 0.5);
+            
+            --accent-gold: #f5a623;
+            --accent-amber: #e67e22;
+            --accent-glow: rgba(245, 166, 35, 0.25);
+            
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-dark: #64748b;
+
+            /* Precise Instrument Category Colors */
+            --badge-vocal-bg: rgba(244, 114, 182, 0.15);
+            --badge-vocal-border: rgba(244, 114, 182, 0.4);
+            --badge-vocal-text: #f472b6;
+
+            --badge-trumpet-bg: rgba(251, 191, 36, 0.15);
+            --badge-trumpet-border: rgba(251, 191, 36, 0.4);
+            --badge-trumpet-text: #fbbf24;
+
+            --badge-sax-bg: rgba(245, 158, 11, 0.15);
+            --badge-sax-border: rgba(245, 158, 11, 0.4);
+            --badge-sax-text: #f59e0b;
+
+            --badge-guitar-bg: rgba(56, 189, 248, 0.15);
+            --badge-guitar-border: rgba(56, 189, 248, 0.4);
+            --badge-guitar-text: #38bdf8;
+
+            --badge-bass-bg: rgba(129, 140, 248, 0.15);
+            --badge-bass-border: rgba(129, 140, 248, 0.4);
+            --badge-bass-text: #818cf8;
+
+            --badge-keys-bg: rgba(251, 113, 133, 0.15);
+            --badge-keys-border: rgba(251, 113, 133, 0.4);
+            --badge-keys-text: #fb7185;
+
+            --badge-drums-bg: rgba(168, 85, 247, 0.15);
+            --badge-drums-border: rgba(168, 85, 247, 0.4);
+            --badge-drums-text: #c084fc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(245, 166, 35, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 60%, rgba(230, 126, 34, 0.04) 0%, transparent 40%);
+            background-attachment: fixed;
+            padding-bottom: 60px;
+        }
+
+        /* Header & Logo */
+        header {
+            position: relative;
+            padding: 40px 20px 25px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(15, 20, 28, 0.95) 0%, rgba(10, 12, 16, 0.85) 100%);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+        }
+
+        .logo-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+            filter: blur(20px);
+        }
+
+        .band-logo {
+            position: relative;
+            z-index: 2;
+            max-width: 280px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(245, 166, 35, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-subtitle {
+            font-size: 0.95rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .header-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Sticky Navigation */
+        .nav-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 12, 16, 0.88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 16px;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            max-width: 1100px;
+            margin: 0 auto;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            padding: 2px;
+            align-items: center;
+        }
+
+        .tab-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+            color: #0d0f12;
+            border-color: var(--accent-gold);
+            box-shadow: 0 4px 15px var(--accent-glow);
+            font-weight: 700;
+        }
+
+        .print-btn {
+            margin-left: auto;
+            background: rgba(245, 166, 35, 0.12);
+            color: var(--accent-gold);
+            border: 1px solid rgba(245, 166, 35, 0.3);
+        }
+        .print-btn:hover {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        /* Container & Grid Layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 16px;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: paneFadeIn 0.35s ease-out forwards;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes paneFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section Cards */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--accent-gold);
+        }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            margin: -8px -8px 20px;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 8px 8px 16px;
+            scrollbar-width: none;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-slide {
+            flex: 0 0 calc(80% - 10px);
+            max-width: 500px;
+            scroll-snap-align: center;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/10;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .carousel-slide {
+                flex: 0 0 calc(45% - 10px);
+            }
+        }
+
+        .carousel-slide:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(10, 12, 16, 0.85);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+        }
+
+        .carousel-nav-btn:hover {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        .carousel-nav-btn.prev { left: 12px; }
+        .carousel-nav-btn.next { right: 12px; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .dot.active {
+            width: 24px;
+            border-radius: 4px;
+            background: var(--accent-gold);
+        }
+
+        /* Musician Lineup Grid */
+        .lineup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .member-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(245, 166, 35, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .member-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(245, 166, 35, 0.1);
+            border: 1px solid rgba(245, 166, 35, 0.2);
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .member-info .role {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .member-info .name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 2px;
+        }
+
+        /* Table Search Controls */
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 9px 12px 9px 36px;
+            color: var(--text-main);
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        /* Data Tables */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.88rem;
+            min-width: 600px;
+        }
+
+        .tech-table th {
+            background: rgba(18, 22, 31, 0.95);
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.8px;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+        }
+
+        .tech-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+        }
+
+        .tech-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .ch-col {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--accent-gold);
+            width: 60px;
+        }
+
+        /* Signal Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+
+        .badge-vocal { background: var(--badge-vocal-bg); border-color: var(--badge-vocal-border); color: var(--badge-vocal-text); }
+        .badge-trumpet { background: var(--badge-trumpet-bg); border-color: var(--badge-trumpet-border); color: var(--badge-trumpet-text); }
+        .badge-sax { background: var(--badge-sax-bg); border-color: var(--badge-sax-border); color: var(--badge-sax-text); }
+        .badge-guitar { background: var(--badge-guitar-bg); border-color: var(--badge-guitar-border); color: var(--badge-guitar-text); }
+        .badge-bass { background: var(--badge-bass-bg); border-color: var(--badge-bass-border); color: var(--badge-bass-text); }
+        .badge-keys { background: var(--badge-keys-bg); border-color: var(--badge-keys-border); color: var(--badge-keys-text); }
+        .badge-drums { background: var(--badge-drums-bg); border-color: var(--badge-drums-border); color: var(--badge-drums-text); }
+
+        .splitter-tag {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .mono-freq {
+            font-family: 'JetBrains Mono', monospace;
+            color: #38bdf8;
+            font-weight: 500;
+        }
+
+        /* Interactive 6m x 4m Stageplot Canvas */
+        .stage-canvas-card {
+            background: #08090c;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Modal Lightbox */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: rgba(255,255,255,0.1);
+            border: none; color: #fff;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Quick Stat Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            margin-top: 40px;
+        }
+
+        /* Print Mode Optimizations */
+        @media print {
+            body { background: #fff; color: #000; }
+            header, .nav-wrapper, footer, .search-box, .carousel-container, .print-btn { display: none !important; }
+            .tab-pane { display: block !important; opacity: 1 !important; transform: none !important; margin-bottom: 30px; }
+            .glass-card { background: #fff; border: 1px solid #ccc; color: #000; box-shadow: none; break-inside: avoid; }
+            .section-title { color: #000; }
+            .tech-table th { background: #f0f0f0; color: #000; border-bottom: 2px solid #000; }
+            .tech-table td { color: #000; border-bottom: 1px solid #ddd; }
+            .stage-canvas-card { background: #fff; border: 1px solid #aaa; }
+            svg { background: #fafafa !important; }
+        }
+
+        /* Responsive Mobile Styles */
+        @media (max-width: 640px) {
+            .band-logo { max-width: 200px; }
+            .glass-card { padding: 16px; }
+            .tab-btn { padding: 8px 14px; font-size: 0.82rem; }
+            .carousel-slide { flex: 0 0 88%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header mit Band-Logo -->
+    <header>
+        <div class="logo-wrapper">
+            <div class="logo-glow"></div>
+            <img src="https://raw.githubusercontent.com/christianoblanco90/moonshiners/refs/heads/main/Bandbilder/LogoMoonshiners.jpg" alt="The Moonshiners Logo" class="band-logo">
+        </div>
+        <div class="header-subtitle">
+            <i data-lucide="sliders"></i> Digital Tech Rider & Stage Plan
+        </div>
+        <p class="header-meta">Stand: 24.10.2026 • Live Sound & Stage Setup</p>
+    </header>
+
+    <!-- Sticky Navigation Tabs -->
+    <div class="nav-wrapper">
+        <nav class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('start', this)">
+                <i data-lucide="users"></i> Band & Galerie
+            </button>
+            <button class="tab-btn" onclick="switchTab('stageplot', this)">
+                <i data-lucide="layout"></i> Stageplot (6x4m)
+            </button>
+            <button class="tab-btn" onclick="switchTab('mischpult', this)">
+                <i data-lucide="list-music"></i> Patchliste
+            </button>
+            <button class="tab-btn" onclick="switchTab('wireless', this)">
+                <i data-lucide="wifi"></i> Mikrofone + IEM
+            </button>
+            <button class="tab-btn print-btn" onclick="window.print()">
+                <i data-lucide="printer"></i> PDF / Drucken
+            </button>
+        </nav>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="main-container">
+
+        <!-- TAB 1: BAND & GALLERIE -->
+        <div id="start" class="tab-pane active">
+            
+            <!-- Horizontal Carousel -->
+            <div class="glass-card">
+                <div class="section-title">
+                    <i data-lucide="camera"></i> Live Impressionen & Galerie
+                </div>
+
+                <div class="carousel-container">
+                    <button class="carousel-nav-btn prev" onclick="moveCarousel(-1)"><i data-lucide="chevron-left"></i></button>
+                    <button class="carousel-nav-btn next" onclick="moveCarousel(1)"><i data-lucide="chevron-right"></i></button>
+
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide" onclick="openLightbox(this.querySelector('img').src)">
+                            <img src="https://raw.githubusercontent.com/christianoblanco90/moonshiners/refs/heads/main/Bandbilder/IMG_0912_klein.jpeg" alt="Moonshiners 1">
+                        </div>
+                        <div class="carousel-slide" onclick="openLightbox(this.querySelector('img').src)">
+                            <img src="https://raw.githubusercontent.com/christianoblanco90/moonshiners/refs/heads/main/Bandbilder/4309641_1_figurenolazyxl2x_rock-am-sumpf-die-moonshiners-bc2w2971.JPG" alt="Moonshiners Rock am Sumpf">
+                        </div>
+                        <div class="carousel-slide" onclick="openLightbox(this.querySelector('img').src)">
+                            <img src="https://raw.githubusercontent.com/christianoblanco90/moonshiners/refs/heads/main/Bandbilder/68c61061-4993-4d19-a0bf-1cfa39cc9dda.JPG" alt="Moonshiners Live Action">
+                        </div>
+                        <div class="carousel-slide" onclick="openLightbox(this.querySelector('img').src)">
+                            <img src="https://raw.githubusercontent.com/christianoblanco90/moonshiners/refs/heads/main/Bandbilder/IMG_5430_klein.jpeg" alt="Moonshiners Stage">
+                        </div>
+                        <div class="carousel-slide" onclick="openLightbox(this.querySelector('img').src)">
+                            <img src="https://raw.githubusercontent.com/christianoblanco90/moonshiners/refs/heads/main/Bandbilder/IMG_8525_klein.jpeg" alt="Moonshiners Band">
+                        </div>
+                    </div>
+
+                    <div class="carousel-dots" id="carouselDots"></div>
+                </div>
+            </div>
+
+            <!-- Line-Up Grid -->
+            <div class="glass-card">
+                <div class="section-title">
+                    <i data-lucide="user-check"></i> Besetzung / Line-Up
+                </div>
+
+                <div class="lineup-grid">
+                    <!-- Gregor -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+                        <div class="member-info">
+                            <div class="role">Lead Vocals & Gitarre</div>
+                            <div class="name">Gregor Prinz</div>
+                        </div>
+                    </div>
+
+                    <!-- Marco -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-guitar"></i></div>
+                        <div class="member-info">
+                            <div class="role">2. Gitarre</div>
+                            <div class="name">Marco Wegener</div>
+                        </div>
+                    </div>
+
+                    <!-- Christian -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-guitar"></i></div>
+                        <div class="member-info">
+                            <div class="role">Bassgitarre</div>
+                            <div class="name">Christian Weiß</div>
+                        </div>
+                    </div>
+
+                    <!-- Franzi -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                        <div class="member-info">
+                            <div class="role">1. Trompete</div>
+                            <div class="name">Franziska Becker</div>
+                        </div>
+                    </div>
+
+                    <!-- Martin -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                        <div class="member-info">
+                            <div class="role">2. Trompete</div>
+                            <div class="name">Martin Schmitz</div>
+                        </div>
+                    </div>
+
+                    <!-- Julius / Saxophon -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-record-vinyl"></i></div>
+                        <div class="member-info">
+                            <div class="role">Saxophon</div>
+                            <div class="name">Julius Schumacher</div>
+                        </div>
+                    </div>
+
+                    <!-- Annika / Keys -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-keyboard"></i></div>
+                        <div class="member-info">
+                            <div class="role">Piano / Keyboard</div>
+                            <div class="name">Annika Becker</div>
+                        </div>
+                    </div>
+
+                    <!-- Leonard / Drums -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-drum"></i></div>
+                        <div class="member-info">
+                            <div class="role">Schlagzeug</div>
+                            <div class="name">Leonard Konzer</div>
+                        </div>
+                    </div>
+
+                    <!-- Johannes / Backup Drums -->
+                    <div class="member-card">
+                        <div class="member-icon"><i class="fa-solid fa-drum"></i></div>
+                        <div class="member-info">
+                            <div class="role">Backup Schlagzeug</div>
+                            <div class="name">Johannes Prinz</div>
+                        </div>
+                    </div>
+
+                    <!-- Moritz -->
+                    <div class="member-card">
+                        <div class="member-icon"><i data-lucide="wrench"></i></div>
+                        <div class="member-info">
+                            <div class="role">Backup / Tech Support</div>
+                            <div class="name">Moritz Moll</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB 2: STAGEPLOT (6m x 4m) -->
+        <div id="stageplot" class="tab-pane">
+            <div class="glass-card">
+                <div class="section-title">
+                    <i data-lucide="map"></i> Bühnenplan & Positionierung (Bühnengröße 6m x 4m)
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-val">6m x 4m</div>
+                        <div class="stat-lbl">Min. Bühnenfläche</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val">23</div>
+                        <div class="stat-lbl">XLR Splitter Signals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val">5x</div>
+                        <div class="stat-lbl">In-Ear Funksysteme</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val">230V</div>
+                        <div class="stat-lbl">Strom Drops (Left/Right)</div>
+                    </div>
+                </div>
+
+                <div class="stage-canvas-card">
+                    <svg viewBox="0 0 900 600" style="width: 100%; height: auto; border-radius: 8px; background: #0c0e14;" id="stageSvg">
+                        <defs>
+                            <!-- Grid Pattern for scale visualization -->
+                            <pattern id="grid" width="150" height="150" patternUnits="userSpaceOnUse">
+                                <path d="M 150 0 L 0 0 0 150" fill="none" stroke="rgba(255, 255, 255, 0.04)" stroke-width="1"/>
+                            </pattern>
+                        </defs>
+
+                        <!-- Grid Background representing meters -->
+                        <rect width="900" height="600" fill="url(#grid)" />
+
+                        <!-- Stage Outer Boundary (Scale 6m x 4m) -->
+                        <rect x="50" y="50" width="800" height="500" rx="12" fill="none" stroke="var(--accent-gold)" stroke-width="2.5" stroke-dasharray="8 6"/>
+                        
+                        <!-- Dimension Labels -->
+                        <text x="450" y="38" fill="var(--accent-gold)" font-family="Inter" font-size="13" font-weight="bold" text-anchor="middle">BÜHNENRÜCKSEITE 6m</text>
+                        <text x="35" y="300" fill="var(--accent-gold)" font-family="Inter" font-size="12" font-weight="bold" text-anchor="middle" transform="rotate(-90 35,300)">TIEFE: 4m</text>
+
+                        <!-- 230V Power Drop Indicators -->
+                        <g transform="translate(70, 75)">
+                            <rect width="70" height="26" rx="4" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1"/>
+                            <text x="35" y="17" fill="#ef4444" font-family="JetBrains Mono" font-size="10" font-weight="bold" text-anchor="middle">⚡ 230V</text>
+                        </g>
+                        <g transform="translate(760, 75)">
+                            <rect width="70" height="26" rx="4" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1"/>
+                            <text x="35" y="17" fill="#ef4444" font-family="JetBrains Mono" font-size="10" font-weight="bold" text-anchor="middle">⚡ 230V</text>
+                        </g>
+
+                        <!-- ================= HINTEN MITTE: SCHLAGZEUG ================= -->
+                        <g transform="translate(350, 75)">
+                            <rect width="200" height="150" rx="10" fill="rgba(168, 85, 247, 0.12)" stroke="#c084fc" stroke-width="2"/>
+                            <text x="100" y="30" fill="#c084fc" font-family="Inter" font-size="15" font-weight="bold" text-anchor="middle">🥁 SCHLAGZEUG</text>
+                            <text x="100" y="52" fill="#f1f5f9" font-family="Inter" font-size="12" font-weight="600" text-anchor="middle">Leonard Konzer</text>
+                            <text x="100" y="68" fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="middle">(Backup: Johannes Prinz)</text>
+                            
+                            <!-- Drum Sub Details -->
+                            <rect x="20" y="82" width="160" height="52" rx="6" fill="rgba(0,0,0,0.4)" stroke="rgba(192, 132, 252, 0.3)"/>
+                            <text x="100" y="100" fill="#c084fc" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Dante Stagebox S32</text>
+                            <text x="100" y="118" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">IEM Wired / Click / Aux Out</text>
+                        </g>
+
+                        <!-- ================= HINTEN LINKS: BLÄSER (Trompeten & Sax) ================= -->
+                        <g transform="translate(70, 115)">
+                            <rect width="250" height="150" rx="10" fill="rgba(251, 191, 36, 0.1)" stroke="#fbbf24" stroke-width="2"/>
+                            <text x="125" y="28" fill="#fbbf24" font-family="Inter" font-size="14" font-weight="bold" text-anchor="middle">🎺 🎷 BLÄSER-SECTION</text>
+                            
+                            <line x1="15" y1="38" x2="235" y2="38" stroke="rgba(251, 191, 36, 0.2)" stroke-width="1"/>
+
+                            <!-- Musiker Detail-List -->
+                            <text x="25" y="60" fill="#f1f5f9" font-family="Inter" font-size="11" font-weight="600">• Franziska Becker</text>
+                            <text x="160" y="60" fill="#fbbf24" font-family="JetBrains Mono" font-size="10">1. Trompete</text>
+
+                            <text x="25" y="85" fill="#f1f5f9" font-family="Inter" font-size="11" font-weight="600">• Martin Schmitz</text>
+                            <text x="160" y="85" fill="#fbbf24" font-family="JetBrains Mono" font-size="10">2. Trompete</text>
+
+                            <text x="25" y="110" fill="#f1f5f9" font-family="Inter" font-size="11" font-weight="600">• Julius Schumacher</text>
+                            <text x="160" y="110" fill="#f59e0b" font-family="JetBrains Mono" font-size="10">Saxophon</text>
+
+                            <text x="125" y="135" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">Funk-Clipmikrofonierung & IEM</text>
+                        </g>
+
+                        <!-- ================= HINTEN RECHTS: PIANO / KEYBOARD ================= -->
+                        <g transform="translate(580, 115)">
+                            <rect width="250" height="150" rx="10" fill="rgba(251, 113, 133, 0.1)" stroke="#fb7185" stroke-width="2"/>
+                            <text x="125" y="28" fill="#fb7185" font-family="Inter" font-size="14" font-weight="bold" text-anchor="middle">🎹 PIANO / KEYBOARD</text>
+                            
+                            <line x1="15" y1="38" x2="235" y2="38" stroke="rgba(251, 113, 133, 0.2)" stroke-width="1"/>
+
+                            <text x="125" y="65" fill="#f1f5f9" font-family="Inter" font-size="13" font-weight="700" text-anchor="middle">Annika Becker</text>
+                            <text x="125" y="85" fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="middle">Keys Stereo L/R (Out 9/10)</text>
+                            <text x="125" y="102" fill="#f472b6" font-family="Inter" font-size="10" text-anchor="middle">🎤 Vocal (SM58 Out 4)</text>
+
+                            <rect x="35" y="115" width="180" height="22" rx="4" fill="rgba(0,0,0,0.3)" stroke="rgba(251, 113, 133, 0.3)"/>
+                            <text x="125" y="130" fill="#fb7185" font-family="JetBrains Mono" font-size="9" text-anchor="middle">230V Stromanschluss</text>
+                        </g>
+
+                        <!-- ================= VORNE LINKS: MARCO (2. Gitarre) ================= -->
+                        <g transform="translate(100, 360)">
+                            <circle cx="90" cy="80" r="65" fill="rgba(56, 189, 248, 0.12)" stroke="#38bdf8" stroke-width="2"/>
+                            <text x="90" y="55" fill="#38bdf8" font-family="Inter" font-size="18" text-anchor="middle">🎸</text>
+                            <text x="90" y="75" fill="#f1f5f9" font-family="Inter" font-size="14" font-weight="bold" text-anchor="middle">MARCO</text>
+                            <text x="90" y="93" fill="#38bdf8" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle">2. Gitarre</text>
+                            <text x="90" y="110" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">Marco Wegener</text>
+                            <text x="90" y="123" fill="#94a3b8" font-family="JetBrains Mono" font-size="8" text-anchor="middle">Git Out 7</text>
+                        </g>
+
+                        <!-- ================= VORNE MITTE: GREGOR (Lead Vox / Git) ================= -->
+                        <g transform="translate(360, 350)">
+                            <circle cx="90" cy="85" r="75" fill="rgba(244, 114, 182, 0.15)" stroke="#f472b6" stroke-width="2.5"/>
+                            <text x="90" y="55" fill="#f472b6" font-family="Inter" font-size="22" text-anchor="middle">🎤🎸</text>
+                            <text x="90" y="78" fill="#f1f5f9" font-family="Inter" font-size="15" font-weight="800" text-anchor="middle">GREGOR</text>
+                            <text x="90" y="96" fill="#f472b6" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Lead Vocals & Gitarre</text>
+                            <text x="90" y="114" fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="middle">Gregor Prinz</text>
+                            <text x="90" y="128" fill="#94a3b8" font-family="JetBrains Mono" font-size="8" text-anchor="middle">Ch 3 (Vox) • Out 6 (Git)</text>
+                        </g>
+
+                        <!-- ================= VORNE RECHTS: CHRISTIAN (Bassgitarre) ================= -->
+                        <g transform="translate(620, 360)">
+                            <circle cx="90" cy="80" r="65" fill="rgba(129, 140, 248, 0.12)" stroke="#818cf8" stroke-width="2"/>
+                            <text x="90" y="55" fill="#818cf8" font-family="Inter" font-size="18" text-anchor="middle">🎸</text>
+                            <text x="90" y="75" fill="#f1f5f9" font-family="Inter" font-size="14" font-weight="bold" text-anchor="middle">CHRISTIAN</text>
+                            <text x="90" y="93" fill="#818cf8" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle">Bassgitarre</text>
+                            <text x="90" y="110" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">Christian Weiß</text>
+                            <text x="90" y="123" fill="#94a3b8" font-family="JetBrains Mono" font-size="8" text-anchor="middle">Ch 1 (Vox) • Out 8 (Bass)</text>
+                        </g>
+
+                        <!-- Bühnenvorderkante / Front Edge -->
+                        <line x1="50" y1="545" x2="850" y2="545" stroke="var(--accent-gold)" stroke-width="4"/>
+                        <rect x="300" y="535" width="300" height="20" rx="4" fill="#f5a623"/>
+                        <text x="450" y="549" fill="#000" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">BÜHNENVORDERKANTE / AUDIENCE</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: MISCHPULTBELEGUNG -->
+        <div id="mischpult" class="tab-pane">
+            
+            <div class="glass-card">
+                <div class="table-controls">
+                    <div class="section-title" style="margin-bottom:0;">
+                        <i data-lucide="cpu"></i> Behringer Wing Rack Dante & Output
+                    </div>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" class="search-input" placeholder="Kanal oder Signal suchen..." onkeyup="filterTable(this, 'wingTable')">
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="tech-table" id="wingTable">
+                        <thead>
+                            <tr>
+                                <th>CH / Out</th>
+                                <th>Kanalname</th>
+                                <th>Signal-Typ</th>
+                                <th>XLR-Splitter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="ch-col">1</td><td>Chris Vocal</td><td><span class="badge badge-vocal"><i class="fa-solid fa-microphone"></i> Vocal</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">2</td><td>Martin Vocal</td><td><span class="badge badge-vocal"><i class="fa-solid fa-microphone"></i> Vocal</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">3</td><td>Gregor Vocal</td><td><span class="badge badge-vocal"><i class="fa-solid fa-microphone"></i> Vocal</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">4</td><td>Martin Trompete</td><td><span class="badge badge-trumpet"><i class="fa-solid fa-bullhorn"></i> Trompete</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            
+                            <tr style="background: rgba(245, 166, 35, 0.08);"><td colspan="4" style="text-align: center; font-weight: bold; color: var(--accent-gold); font-size: 0.75rem; letter-spacing: 1px;">WING RACK OUTPUTS & STAGE DROPS</td></tr>
+                            
+                            <tr><td class="ch-col">Out 4</td><td>Pianist Vocal (Annika)</td><td><span class="badge badge-vocal"><i class="fa-solid fa-microphone"></i> Vocal</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 6</td><td>Gregor Gitarre</td><td><span class="badge badge-guitar"><i class="fa-solid fa-guitar"></i> Gitarre</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 7</td><td>Marco Gitarre</td><td><span class="badge badge-guitar"><i class="fa-solid fa-guitar"></i> Gitarre</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 8</td><td>Bassgitarre</td><td><span class="badge badge-bass"><i class="fa-solid fa-guitar"></i> Bassgitarre</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 9</td><td>Piano L</td><td><span class="badge badge-keys"><i class="fa-solid fa-keyboard"></i> Keys</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 10</td><td>Piano R</td><td><span class="badge badge-keys"><i class="fa-solid fa-keyboard"></i> Keys</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 13</td><td>Franzi Trompete</td><td><span class="badge badge-trumpet"><i class="fa-solid fa-bullhorn"></i> Trompete</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 15</td><td>Saxophon Tenor</td><td><span class="badge badge-sax"><i class="fa-solid fa-record-vinyl"></i> Saxophon</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 16</td><td>Saxophon Alt</td><td><span class="badge badge-sax"><i class="fa-solid fa-record-vinyl"></i> Saxophon</span></td><td><span class="splitter-tag">ja</span></td></tr>
+                            <tr><td class="ch-col">Out 22</td><td>Talkback CW</td><td><span class="badge" style="background:rgba(255,255,255,0.05); color:#94a3b8;"><i class="fa-solid fa-headset"></i> Talkback</span></td><td>-</td></tr>
+                            <tr><td class="ch-col">Out 23</td><td>Fans L</td><td><span class="badge" style="background:rgba(255,255,255,0.05); color:#94a3b8;"><i class="fa-solid fa-users"></i> Ambience</span></td><td>-</td></tr>
+                            <tr><td class="ch-col">Out 24</td><td>Fans R</td><td><span class="badge" style="background:rgba(255,255,255,0.05); color:#94a3b8;"><i class="fa-solid fa-users"></i> Ambience</span></td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="table-controls">
+                    <div class="section-title" style="margin-bottom:0;">
+                        <i data-lucide="server"></i> IEM-Rack: Behringer S32 Stagebox (Drums & Aux)
+                    </div>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" class="search-input" placeholder="Kanal suchen..." onkeyup="filterTable(this, 's32Table')">
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="tech-table" id="s32Table">
+                        <thead>
+                            <tr>
+                                <th>CH</th>
+                                <th>Kanalname</th>
+                                <th>Signal-Typ</th>
+                                <th>XLR-Splitter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="ch-col">A1</td><td>Kick</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A2</td><td>SNR Top</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A3</td><td>SNR Bottom</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A4</td><td>Tom High</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A5</td><td>Tom Low</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A6</td><td>OH L</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A7</td><td>OH R</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A8</td><td>Tom Mid</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td>-</td></tr>
+                            <tr><td class="ch-col">A9</td><td>Hi-Hat</td><td><span class="badge badge-drums"><i class="fa-solid fa-drum"></i> Drums</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A10</td><td>Klick</td><td><span class="badge" style="background:rgba(255,255,255,0.05); color:#94a3b8;"><i class="fa-solid fa-stopwatch"></i> Click</span></td><td>-</td></tr>
+                            <tr><td class="ch-col">A11</td><td>Leonard Vocal</td><td><span class="badge badge-vocal"><i class="fa-solid fa-microphone"></i> Vocal</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                            <tr><td class="ch-col">A12</td><td>Saxophon Bariton</td><td><span class="badge badge-sax"><i class="fa-solid fa-record-vinyl"></i> Saxophon</span></td><td><span class="splitter-tag">YES</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB 4: WIRELESS & IN-EAR -->
+        <div id="wireless" class="tab-pane">
+            
+            <div class="glass-card">
+                <div class="section-title">
+                    <i data-lucide="radio"></i> Funkmikrofone & Sender Setup
+                </div>
+
+                <div class="table-container">
+                    <table class="tech-table">
+                        <thead>
+                            <tr>
+                                <th>Musiker / Funktion</th>
+                                <th>Mikrofon</th>
+                                <th>Typ</th>
+                                <th>System</th>
+                                <th>Band</th>
+                                <th>Frequenzbereich</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Gregor Vocal</td><td>Shure Beta 87A</td><td>Funk</td><td>Shure ULXD2</td><td><span class="mono-freq">H51</span></td><td>534 - 598 MHz</td></tr>
+                            <tr><td>Christian Vocal</td><td>Shure KSM 9</td><td>Funk</td><td>Shure ULXD2</td><td><span class="mono-freq">L50</span></td><td>632 - 698 MHz</td></tr>
+                            <tr><td>Piano Vocal (Annika)</td><td>SM58</td><td>Kabel</td><td>-</td><td>-</td><td>-</td></tr>
+                            <tr><td>Martin Vocal</td><td>Shure Beta 58A</td><td>Funk</td><td>Shure ULXD2</td><td><span class="mono-freq">L50</span></td><td>632 - 698 MHz</td></tr>
+                            <tr><td>Leonard Vocal</td><td>Shure SM 58 S</td><td>Kabel</td><td>-</td><td>-</td><td>-</td></tr>
+                            <tr><td>Franzi Trompete</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure SLXD1</td><td><span class="mono-freq">G59</span></td><td>470 - 514 MHz</td></tr>
+                            <tr><td>Martin Trompete</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure SLXD1</td><td><span class="mono-freq">H51</span></td><td>534 - 598 MHz</td></tr>
+                            <tr><td>Bariton Saxophon</td><td>Shure Beta 98 H/C</td><td>Kabel</td><td>-</td><td>-</td><td>-</td></tr>
+                            <tr><td>Tenor Saxophon</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure SLXD1</td><td><span class="mono-freq">G59</span></td><td>470 - 514 MHz</td></tr>
+                            <tr><td>Alt Saxophon</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure ULXD1</td><td><span class="mono-freq">H51</span></td><td>534 - 598 MHz</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="section-title">
+                    <i data-lucide="headphones"></i> In-Ear Monitoring (IEM) Frequenzen
+                </div>
+
+                <div class="table-container">
+                    <table class="tech-table">
+                        <thead>
+                            <tr>
+                                <th>Musiker</th>
+                                <th>IEM System</th>
+                                <th>Band</th>
+                                <th>Frequenzbereich</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Gregor</td><td>Shure PSM 900</td><td><span class="mono-freq">Q15</span></td><td>750 - 790 MHz</td></tr>
+                            <tr><td>Christian (Bass)</td><td>Shure PSM 900</td><td><span class="mono-freq">Q15</span></td><td>750 - 790 MHz</td></tr>
+                            <tr><td>Franzi (Trompete)</td><td>Shure PSM 300</td><td><span class="mono-freq">H8E</span></td><td>518 - 542 MHz</td></tr>
+                            <tr><td>Martin (Trompete)</td><td>Shure PSM 300</td><td><span class="mono-freq">T11</span></td><td>863 - 865 MHz</td></tr>
+                            <tr><td>Saxophon</td><td>Shure PSM 300</td><td><span class="mono-freq">S8</span></td><td>823 - 832 MHz</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="modal-overlay" id="lightboxModal" onclick="closeLightbox()">
+        <button class="modal-close"><i data-lucide="x"></i></button>
+        <img src="" alt="Enlarged View" class="modal-img" id="lightboxImg">
+    </div>
+
+    <footer>
+        <p>&copy; 2026 The Moonshiners Live Crew • Technical Stage Rider & Patchbay Specifications</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Switch Tabs Logic
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Carousel Logic
+        const track = document.getElementById('carouselTrack');
+        const dotsContainer = document.getElementById('carouselDots');
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        // Render Dots
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                track.scrollTo({
+                    left: slides[idx].offsetLeft - track.offsetLeft,
+                    behavior: 'smooth'
+                });
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        // Update Dots on Scroll
+        track.addEventListener('scroll', () => {
+            const scrollPos = track.scrollLeft;
+            slides.forEach((slide, idx) => {
+                if (Math.abs(slide.offsetLeft - track.offsetLeft - scrollPos) < slide.clientWidth / 2) {
+                    document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                    if (dotsContainer.children[idx]) {
+                        dotsContainer.children[idx].classList.add('active');
+                    }
+                }
+            });
+        });
+
+        function moveCarousel(direction) {
+            const slideWidth = slides[0].clientWidth + 16;
+            track.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+        }
+
+        // Lightbox Functions
+        function openLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightboxModal').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.remove('active');
+        }
+
+        // Live Table Filtering
+        function filterTable(input, tableId) {
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById(tableId);
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                let textContent = tr[i].textContent.toLowerCase();
+                if (textContent.indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
