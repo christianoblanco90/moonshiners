@@ -458,7 +458,7 @@
             border-collapse: collapse;
             text-align: left;
             font-size: 0.88rem;
-            min-width: 600px;
+            min-width: 100%; /* Passend gemacht für den Container */
         }
 
         .tech-table th {
@@ -488,7 +488,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             color: var(--accent-gold);
-            width: 60px;
+            width: 70px;
         }
 
         /* Signal Badges */
@@ -539,6 +539,17 @@
             position: relative;
         }
 
+        /* Drum Click Interactive Styling */
+        .clickable-drum {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .clickable-drum:hover rect {
+            fill: rgba(168, 85, 247, 0.25);
+            stroke: #e9d5ff;
+            filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.6));
+        }
+
         /* Modal Lightbox */
         .modal-overlay {
             position: fixed;
@@ -571,6 +582,18 @@
             border-radius: 50%;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Custom Drum Modal Content - Vergrößert für saubere Darstellung */
+        .modal-content-box {
+            background: #12161f;
+            border: 1px solid var(--accent-gold);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            color: #f1f5f9;
         }
 
         /* Quick Stat Cards */
@@ -873,15 +896,19 @@
                             <text x="35" y="17" fill="#ef4444" font-family="JetBrains Mono" font-size="10" font-weight="bold" text-anchor="middle">⚡ 230V</text>
                         </g>
 
-                        <!-- ================= HINTEN MITTE: SCHLAGZEUG ================= -->
-                        <g transform="translate(350, 75)">
+                        <!-- ================= HINTEN MITTE: SCHLAGZEUG (INTERAKTIV) ================= -->
+                        <g transform="translate(350, 75)" class="clickable-drum" onclick="openDrumModal()">
                             <rect width="200" height="110" rx="10" fill="rgba(168, 85, 247, 0.12)" stroke="#c084fc" stroke-width="2"/>
-                            <text x="100" y="25" fill="#c084fc" font-family="Inter" font-size="14" font-weight="bold" text-anchor="middle">🥁 SCHLAGZEUG</text>
-                            <line x1="15" y1="34" x2="185" y2="34" stroke="rgba(251, 191, 36, 0.2)" stroke-width="1"/>
-                            <text x="100" y="48" fill="#f1f5f9" font-family="Inter" font-size="12" font-weight="600" text-anchor="middle">Leonard Konzer</text>
-                            <text x="100" y="62" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">(Backup: Johannes P. / Moritz M.)</text>
-                            <text x="100" y="78" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">In A01 - A09 (Drums) • In A11 (Vocal)</text>
-                            <text x="100" y="92" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">IEM-Wired</text>
+                            <text x="100" y="23" fill="#c084fc" font-family="Inter" font-size="14" font-weight="bold" text-anchor="middle">🥁 SCHLAGZEUG</text>
+                            <line x1="15" y1="31" x2="185" y2="31" stroke="rgba(251, 191, 36, 0.2)" stroke-width="1"/>
+                            <text x="100" y="45" fill="#f1f5f9" font-family="Inter" font-size="12" font-weight="600" text-anchor="middle">Leonard Konzer</text>
+                            <text x="100" y="58" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">(Backup: Johannes P. / Moritz M.)</text>
+                            <text x="100" y="72" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">In A01 - A09 (Drums) • In A11 (Vocal)</text>
+                            <text x="100" y="85" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">IEM-Wired</text>
+                            
+                            <!-- Klick-Hinweis Badge -->
+                            <rect x="35" y="91" width="130" height="15" rx="3" fill="var(--accent-gold)"/>
+                            <text x="100" y="102" fill="#000" font-family="Inter" font-size="8.5" font-weight="bold" text-anchor="middle">🔍 Klicken für Details.</text>
                         </g>
 
                         <!-- ================= HINTEN LINKS: BLÄSER (Trompeten & Sax) ================= -->
@@ -1111,7 +1138,7 @@
                             <tr><td>Martin Vocal</td><td>Shure Beta 58A</td><td>Funk</td><td>Shure ULXD2</td><td><span class="mono-freq">L50</span></td><td>632 - 698 MHz</td></tr>
                             <tr><td>Leonard Vocal</td><td>Shure SM 58 S</td><td>Kabel</td><td>-</td><td>-</td><td>-</td></tr>
                             <tr><td>Franzi Trompete</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure SLXD1</td><td><span class="mono-freq">G59</span></td><td>470 - 514 MHz</td></tr>
-                            <tr><td>Martin Trompete</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure SLXD1</td><td><span class="mono-freq">H51</span></td><td>534 - 598 MHz</td></tr>
+                            <tr><td>Martin Trompete</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure ULXD1</td><td><span class="mono-freq">H51</span></td><td>534 - 598 MHz</td></tr>
                             <tr><td>Bariton Saxophon</td><td>Shure Beta 98 H/C</td><td>Kabel</td><td>-</td><td>-</td><td>-</td></tr>
                             <tr><td>Tenor Saxophon</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure SLXD1</td><td><span class="mono-freq">G59</span></td><td>470 - 514 MHz</td></tr>
                             <tr><td>Alt Saxophon</td><td>Shure WB 98 H/C</td><td>Funk</td><td>Shure ULXD1</td><td><span class="mono-freq">H51</span></td><td>534 - 598 MHz</td></tr>
@@ -1150,10 +1177,42 @@
 
     </div>
 
-    <!-- Lightbox Modal -->
-    <div class="modal-overlay" id="lightboxModal" onclick="closeLightbox()">
-        <button class="modal-close"><i data-lucide="x"></i></button>
-        <img src="" alt="Enlarged View" class="modal-img" id="lightboxImg">
+    <!-- Lightbox Modal (Bilder & Schlagzeug-Detail) -->
+    <div class="modal-overlay" id="lightboxModal" onclick="closeLightbox(event)">
+        <button class="modal-close" onclick="forceCloseModal()"><i data-lucide="x"></i></button>
+        <img src="" alt="Enlarged View" class="modal-img" id="lightboxImg" style="display:none;">
+        
+        <!-- Modal für Schlagzeug Micro-Belegung (Breite angepasst) -->
+        <div class="modal-content-box" id="drumModalContent" style="display:none;" onclick="event.stopPropagation()">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                <h3 style="color: var(--accent-gold); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-drum"></i> Schlagzeug Kanal & Mikro
+                </h3>
+            </div>
+            
+            <div class="table-container" style="max-height: 60vh;">
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Kanal</th>
+                            <th>Instrument</th>
+                            <th>Mikrofon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="ch-col">A1</td><td>Kick</td><td>AKG P2</td></tr>
+                        <tr><td class="ch-col">A2</td><td>SNR Top</td><td>AKG P4</td></tr>
+                        <tr><td class="ch-col">A3</td><td>SNR Bottom</td><td>AKG P4</td></tr>
+                        <tr><td class="ch-col">A4</td><td>Tom High</td><td>AKG P4</td></tr>
+                        <tr><td class="ch-col">A5</td><td>Tom Low</td><td>AKG P4</td></tr>
+                        <tr><td class="ch-col">A6</td><td>OH L</td><td>⚡ AKG P17</td></tr>
+                        <tr><td class="ch-col">A7</td><td>OH R</td><td>⚡ AKG P17</td></tr>
+                        <tr><td class="ch-col">A8</td><td><em>Tom Mid</em></td><td>AKG P4</td></tr>
+                        <tr><td class="ch-col">A9</td><td>Hi-Hat</td><td>⚡ AKG</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -1211,13 +1270,28 @@
             track.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
         }
 
-        // Lightbox Functions
+        // Lightbox & Modal Functions
         function openLightbox(src) {
-            document.getElementById('lightboxImg').src = src;
+            document.getElementById('drumModalContent').style.display = 'none';
+            const img = document.getElementById('lightboxImg');
+            img.src = src;
+            img.style.display = 'block';
             document.getElementById('lightboxModal').classList.add('active');
         }
 
-        function closeLightbox() {
+        function openDrumModal() {
+            document.getElementById('lightboxImg').style.display = 'none';
+            document.getElementById('drumModalContent').style.display = 'block';
+            document.getElementById('lightboxModal').classList.add('active');
+        }
+
+        function closeLightbox(event) {
+            if (event.target.id === 'lightboxModal') {
+                document.getElementById('lightboxModal').classList.remove('active');
+            }
+        }
+
+        function forceCloseModal() {
             document.getElementById('lightboxModal').classList.remove('active');
         }
 
