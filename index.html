@@ -529,7 +529,7 @@
             font-weight: 500;
         }
 
-        /* Interactive 6m x 4m Stageplot Canvas */
+        /* Interactive 6m x 5m Stageplot Canvas */
         .stage-canvas-card {
             background: #08090c;
             border-radius: 12px;
@@ -666,7 +666,7 @@
         <div class="header-subtitle">
             <i data-lucide="sliders"></i> Digital Tech Rider & Stage Plan
         </div>
-        <p class="header-meta">Stand: 24.10.2026 • Live Sound & Stage Setup Specifications</p>
+        <p class="header-meta">Stand: 27.10.2026 • Live Sound & Stage Setup Specifications</p>
     </header>
 
     <!-- Sticky Navigation Tabs -->
@@ -675,8 +675,11 @@
             <button class="tab-btn active" onclick="switchTab('start', this)">
                 <i data-lucide="users"></i> Band & Galerie
             </button>
+	<button class="tab-btn" onclick="switchTab('veranstalter', this)">
+    	<i data-lucide="clipboard-list"></i> Veranstalter-Info
+		</button>
             <button class="tab-btn" onclick="switchTab('stageplot', this)">
-                <i data-lucide="layout"></i> Stageplot (6x4m)
+                <i data-lucide="layout"></i> Stageplot (6x5m)
             </button>
             <button class="tab-btn" onclick="switchTab('mischpult', this)">
                 <i data-lucide="list-music"></i> Patchliste
@@ -851,17 +854,145 @@
                 </div>
             </div>
         </div>
+<!-- TAB: VERANSTALTER-INFO -->
+<div id="veranstalter" class="tab-pane">
 
-        <!-- TAB 2: STAGEPLOT (6m x 4m) -->
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="clipboard-list"></i>
+            Informationen für Veranstalter
+        </div>
+
+        <p style="line-height:1.8; color: var(--text-muted);">
+            Vielen Dank für Ihr Interesse an The Moonshiners. Auf dieser Seite
+            finden Sie die wichtigsten organisatorischen und technischen
+            Informationen für die Planung unserer Auftritte.
+        </p>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="music"></i>
+            Die Band
+        </div>
+
+        <p style="line-height:1.8;">
+            The Moonshiners stehen für energiegeladene Livemusik mit einer
+            achtköpfigen Besetzung aus Gesang, Gitarren, Bass, Keyboard,
+            Schlagzeug und dreiköpfigem Bläsersatz.
+            Wir bringen unser vollständiges Monitoring- und Mischpultsystem
+            selbst mit und arbeiten weitgehend autark.
+        </p>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="layout"></i>
+            Bühne
+        </div>
+
+        <ul style="line-height:2; padding-left:20px;">
+            <li>Empfohlene Mindestgröße: 6m x 4m - Optimal: 6m x 5m oder größer</li>
+            <li>Ebener, tragfähiger Untergrund</li>
+            <li>Ausreichend Platz für Keyboard- und Drum-Riser</li>
+            <li>Drumriser: 2m x 2m; Keyboardriser: 2m x 1m; Bläserrider: 2m x 1m</li>
+            <li>Bühnenzugang für Instrumenten- und Techniktransport</li>
+        </ul>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="volume-2"></i>
+            Tontechnik
+        </div>
+
+        <ul style="line-height:2; padding-left:20px;">
+            <li>Professionelle PA-Anlage für die jeweilige Veranstaltungsgröße: Qualitativ hochwertiges, zeitgemäßes und wohlklingendes 		Marken-Beschallungssystem. Leistung der erwarteten Zuschauerzahl und der Räumlichkeit angepasst mit genügend Headroom im 		Stimmbereich und hoher Kapazität im Bassbereich, angemessen für eine „Rock’n’Roll Show“:</li>
+		</li>z.B. d&b audiotechnik, L-Acoustics, Nexo, QSC Audio, Meyersound</li>
+		<li>Die PA muss über eine Bassauslöschung (idealerweise Cardioid-Subwoofer) verfügen – ganz wichtig! Beim Eintreffen der Band muss diese spielfertig und auf den Raum entzerrt sein.</li>
+            <li>Übergabe der Mischung über Stereo-XLR oder digitale Anbindung möglich (DANTE oder AES50)</li>
+            <li>Ein Ansprechpartner der Haustechnik sollte vor Ort sein</li>
+        </ul>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="zap"></i>
+            Stromversorgung
+        </div>
+
+        <ul style="line-height:2; padding-left:20px;">
+            <li>Mindestens ein separater 230V / 16A Stromkreis</li>
+            <li>Mehrere Schuko-Anschlüsse in Bühnennähe</li>
+            <li>Stromversorgung spätestens beim Aufbau verfügbar</li>
+        </ul>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="lightbulb"></i>
+            Lichttechnik
+        </div>
+
+        <p style="line-height:1.8;">
+	Den Räumlichkeiten angepasste Lichtanlage, ausreichend Frontlicht zur gleichmäßigen Ausleuchtung der Bühne. Sehr gerne gesehen 	Moving-Lights für bewegtes Licht im Hintergrund.
+	</p>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="truck"></i>
+            Anlieferung & Aufbau
+        </div>
+
+        <ul style="line-height:2; padding-left:20px;">
+            <li>Möglichst kurze Wege zwischen Fahrzeugen und Bühne</li>
+            <li>Parkmöglichkeit für 5 PKW + Anhänger in Bühnennähe</li>
+            <li>Aufbauzeit je nach Veranstaltung ca. 90 Minuten</li>
+            <li>Abbauzeit ca. 45 Minuten</li>
+        </ul>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="cloud-rain"></i>
+            Open-Air Veranstaltungen
+        </div>
+
+        <p style="line-height:1.8;">
+            Bei Open-Air-Veranstaltungen müssen Bühne und Technik gegen Regen,
+            Wind und direkte Sonneneinstrahlung geschützt sein.
+            Die Durchführung erfolgt ausschließlich unter technisch sicheren
+            Bedingungen.
+        </p>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title">
+            <i data-lucide="phone"></i>
+            Kontakt
+        </div>
+
+        <p style="line-height:1.8;">
+            <strong>Christian Weiß</strong><br>
+            The Moonshiners<br>
+            Mobil: 0162/4239205<br>
+            E-Mail: cw1090@googlemail.com
+        </p>
+    </div>
+
+</div>
+
+        <!-- TAB 2: STAGEPLOT (6m x 5m) -->
         <div id="stageplot" class="tab-pane">
             <div class="glass-card">
                 <div class="section-title">
-                    <i data-lucide="map"></i> Bühnenplan & Positionierung (Bühnengröße 6m x 4m)
+                    <i data-lucide="map"></i> Bühnenplan & Positionierung (Bühnengröße 6m x 5m)
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-val">6m x 4m</div>
+                        <div class="stat-val">6m x 5m</div>
                         <div class="stat-lbl">Min. Bühnenfläche</div>
                     </div>
                     <div class="stat-card">
@@ -890,12 +1021,12 @@
                         <!-- Grid Background representing meters -->
                         <rect width="900" height="600" fill="url(#grid)" />
 
-                        <!-- Stage Outer Boundary (Scale 6m x 4m) -->
+                        <!-- Stage Outer Boundary (Scale 6m x 5m) -->
                         <rect x="50" y="50" width="800" height="500" rx="12" fill="none" stroke="var(--accent-gold)" stroke-width="2.5" stroke-dasharray="8 6"/>
                         
                         <!-- Dimension Labels -->
                         <text x="450" y="38" fill="var(--accent-gold)" font-family="Inter" font-size="13" font-weight="bold" text-anchor="middle">BÜHNENRÜCKSEITE 6m</text>
-                        <text x="35" y="300" fill="var(--accent-gold)" font-family="Inter" font-size="12" font-weight="bold" text-anchor="middle" transform="rotate(-90 35,300)">TIEFE: 4m</text>
+                        <text x="35" y="300" fill="var(--accent-gold)" font-family="Inter" font-size="12" font-weight="bold" text-anchor="middle" transform="rotate(-90 35,300)">TIEFE: 5m</text>
 
                         <!-- 230V Power Drop Indicators -->
                         <g transform="translate(270, 75)">
